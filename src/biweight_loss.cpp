@@ -1,5 +1,9 @@
 #include "biweight_loss.h"
 
+// Propriété @gtromano
+// https://github.com/gtromano/FOCuS/tree/master/src
+
+
 void update_cost_biweight(std::list<Quadratic>& Q, const double& x, const double& K, const double& m0 = 0.0) {
   auto k = sqrt(2.0 * K);
   auto scaling = std::max(-.5 * (m0 * m0 - 2.0 * m0 * x + x * x), - k * k);
