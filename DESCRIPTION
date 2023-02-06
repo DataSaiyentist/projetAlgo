@@ -1,0 +1,15 @@
+Package: projetAlgo
+Type: Package
+Title: Implémentation de FOCuS pour la détection de ruptures
+Version: 1.0.0
+Date: 2023-01-15
+Authors@R: c(person("Sarugan", "Sriharan", email = "sarugan.sriharan@protonmail.com", role = c("aut", "cre")), person("Ibtissem", "Rebai", email = "ibtissem.rebai@hotmail.com", role = c("aut")), person("Abdelouahab", "Zaari", email = "zaari.abdou98@gmail.com", role = c("aut")))
+Maintainer: Sarugan Sriharan <sarugan.sriharan@protonmail.com> 
+Description: L'objectif du projet est d'apprendre à faire face à des problèmes réels.
+    Dans notre cas, nous cherchons à détecter les points de rupture dans une série temporelle. Nous avons implémenté en particulier la méthode FOCuS et l'avons comparé à l'approche séquentielle de Page.
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+Imports: Rcpp
+LinkingTo: Rcpp
+NeedsCompilation: yes
+RoxygenNote: 7.2.3

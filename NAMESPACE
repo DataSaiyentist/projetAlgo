@@ -1,0 +1,4 @@
+useDynLib(projetAlgo, .registration=TRUE)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+importFrom("stats", "ks.test", "pnorm", "runif", "var")
