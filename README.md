@@ -20,5 +20,5 @@ library(projetAlgo)
 
 ## License
 
-Copyright © 2023 [Data Saiyentist](https://github.com/DataSaiyentist). <br />
+Copyright © 2023 [Data Saiyentist](https://github.com/DataSaiyentist), [I-Rebai](https://github.com/I-Rebai), [Zaari1998](https://github.com/Zaari1998). <br />
 This project is [GNU General Public License v3.0](https://github.com/DataSaiyentist/projetAlgo/blob/main/LICENSE) licensed.
