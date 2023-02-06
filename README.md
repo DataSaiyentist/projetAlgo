@@ -1,4 +1,4 @@
-# projetAlgo - Projet Algorithmique (M2 Data Science 2022/2023)
+# Projet d'Algorithmique (M2 Data Science 2022/2023)
 
 Le projet est d’implémenter FOCuS en R/C++ et de comparer ses performances (algorithmiques et statistiques) à celle de l’approche séquentielle de Page.
 </br>
@@ -20,5 +20,5 @@ library(projetAlgo)
 
 ## License
 
-Copyright © 2021 [Data Saiyentist](https://github.com/DataSaiyentist). <br />
-This project is [GNU General Public License v3.0]() licensed.
+Copyright © 2023 [Data Saiyentist](https://github.com/DataSaiyentist). <br />
+This project is [GNU General Public License v3.0](https://github.com/DataSaiyentist/projetAlgo/blob/main/LICENSE) licensed.
