@@ -4,10 +4,12 @@
 \alias{pageSeq}
 \title{Approche séquentielle de Page}
 \usage{
-pageSeq(x, mu1)
+pageSeq(x, threshold, mu1)
 }
 \arguments{
 \item{x}{vecteur (série temporelle) à valeurs réelles}
+
+\item{threshold}{seuil pour décider d'un changement de tendance}
 
 \item{mu1}{moyenne après la rupture}
 }

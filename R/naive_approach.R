@@ -246,9 +246,10 @@ CUSUMs_test <- function(x, threshold, method = c("CUSUM", "Page-CUSUM")) {
 #' @details Cette fonction va calculer des rapports de log-vraisemblances et retourner l'indice de rupture tel que la statistique finale est non nulle (on suppose d'ailleurs que la moyenne avant la rupture est nulle).
 #'
 #' @param x vecteur (série temporelle) à valeurs réelles
+#' @param threshold seuil pour décider d'un changement de tendance
 #' @param mu1 moyenne après la rupture
 #' @return \code{cp} le supposé indice du point de rupture et \code{Qn} les statistiques de la méthode séquentielle de Page (somme des rapports des vraisemblances logarithmiques)
-pageSeq <- function(x, mu1) {
+pageSeq <- function(x, threshold, mu1) {
 
   # Calcul des statistiques de Page récursivement
   Qn <- cumsum(mu1 * (x - (mu1/2)))
@@ -261,7 +262,7 @@ pageSeq <- function(x, mu1) {
 
   # Décision de rupture ?
   # Le point qui maximise la statistique
-  cp <- which(Qn > 0)[1]
+  cp <- which(Qn > threshold)[1]
   cp <- ifelse(is.na(cp), -1, cp)
 
   return(list(cp = cp, maxs = Qn))
