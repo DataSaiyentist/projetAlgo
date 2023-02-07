@@ -113,21 +113,21 @@ naive_test2 <- function(x, K = 1, method = c("wilcox", "KS")) {
     pvalues <- NULL
 
     # Recherche à l'intérieur de la première composante à l'instant k
-    for (i in 1:(index_break[1]-1)) {
-      pvalues <- c(pvalues, test_func(x[1:i], x[(i+1):index_break[1]])$p.value)
+    for (i in 1:(index_break[1]-2)) {
+      pvalues <- c(pvalues, test_func(x[1:i], x[(i+1):(index_break[1]-1)])$p.value)
     }
 
     # Recherche à l'intérieur des autres composantes
     if (k > 1) {
       for (j in 1:(k-1)) {
-        for (i in (index_break[j] + 1):(index_break[j+1]-1)) {
-          pvalues <- c(pvalues, test_func(x[index_break[j]:i], x[(i+1):index_break[j+1]])$p.value)
+        for (i in (index_break[j]+1):(index_break[j+1]-2)) {
+          pvalues <- c(pvalues, test_func(x[index_break[j]:i], x[(i+1):index_break[j+1]-1])$p.value)
         }
       }
     }
 
     # Recherche à l'intérieur de la dernière composante à l'instant k
-    for (i in (index_break[k] + 1):(n-1)) {
+    for (i in (index_break[k]+1):(n-1)) {
       pvalues <- c(pvalues, test_func(x[index_break[k]:i], x[(i+1):n])$p.value)
     }
 
