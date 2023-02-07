@@ -18,5 +18,5 @@ pageSeq(x, mu1)
 Elle permet de détecter un point de rupture séquentiellement sous l'hypothèse que l'on connaît la moyenne après la rupture.
 }
 \details{
-Cette fonction va calculer des rapports de log-vraisemblances et retourner l'indice de rupture tel que la statistique y est maximale.
+Cette fonction va calculer des rapports de log-vraisemblances et retourner l'indice de rupture tel que la statistique finale est non nulle (on suppose d'ailleurs que la moyenne avant la rupture est nulle).
 }

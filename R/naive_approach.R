@@ -152,11 +152,14 @@ naive_test2 <- function(x, K = 1, method = c("wilcox", "KS")) {
 #' @param mu0 moyenne avant la rupture
 #' @return \code{cp} le supposé indice du point de rupture \code{Tn} les statistiques de CUSUM
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
-#' @seealso https://github.com/gtromano/FOCuS (Inspiration pour l'implémentation)
+#' @seealso https://github.com/gtromano/FOCuS
 CUSUM <- function(x, threshold, mu0) {
 
+  # Calcul des statistiques de CUSUM récursivement
   Tn <- abs(cumsum(x - mu0)) * (1/sqrt(1:length(x)))
 
+  # Décision de rupture ?
+  # Le premier qui a une statistique supérieure au seuil
   cp <- which(Tn >= threshold)[1]
   cp <- ifelse(is.na(cp), -1, cp)
 
@@ -177,7 +180,7 @@ CUSUM <- function(x, threshold, mu0) {
 #' @param mu0 moyenne avant la rupture
 #' @return \code{cp} le supposé indice du point de rupture et \code{Tn} les statistiques de Page-CUSUM
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
-#' @seealso https://github.com/gtromano/FOCuS (Inspiration pour l'implémentation)
+#' @seealso https://github.com/gtromano/FOCuS
 pageCUSUM <- function (x, threshold, mu0) {
 
   # Calcul des statistiques de Page-CUSUM récursivement
@@ -240,7 +243,7 @@ CUSUMs_test <- function(x, threshold, method = c("CUSUM", "Page-CUSUM")) {
 #'
 #' @description Elle permet de détecter un point de rupture séquentiellement sous l'hypothèse que l'on connaît la moyenne après la rupture.
 #'
-#' @details Cette fonction va calculer des rapports de log-vraisemblances et retourner l'indice de rupture tel que la statistique y est maximale.
+#' @details Cette fonction va calculer des rapports de log-vraisemblances et retourner l'indice de rupture tel que la statistique finale est non nulle (on suppose d'ailleurs que la moyenne avant la rupture est nulle).
 #'
 #' @param x vecteur (série temporelle) à valeurs réelles
 #' @param mu1 moyenne après la rupture
@@ -250,10 +253,21 @@ pageSeq <- function(x, mu1) {
   # Calcul des statistiques de Page récursivement
   Qn <- cumsum(mu1 * (x - (mu1/2)))
 
+  # Placer des 0 si la statistique est négative
+  n <- length(x)
+  for (i in 1:n) {
+    if (Qn[i]<0) { Qn[i:n] <- Qn[i:n] - Qn[i]}
+  }
+
   # Décision de rupture ?
   # Le point qui maximise la statistique
-  cp <- which.max(Qn)
+  cp <- which(Qn > 0)[1]
   cp <- ifelse(is.na(cp), -1, cp)
 
   return(list(cp = cp, maxs = Qn))
 }
+
+######################################################################
+######################################################################
+
+

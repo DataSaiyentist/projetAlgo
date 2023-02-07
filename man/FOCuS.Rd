@@ -51,5 +51,5 @@ i <- 1; FOCuS(f, 18)
 Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
 }
 \seealso{
-https://github.com/gtromano/FOCuS (Propriétaire de l'algorithme)
+https://github.com/gtromano/FOCuS (Propriétaires de l'algorithme)
 }
