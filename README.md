@@ -1,6 +1,6 @@
 # Projet d'Algorithmique (M2 Data Science 2022/2023)
 
-L'objectif d’implémenter FOCuS en R/C++ et de comparer ses performances (algorithmiques et statistiques) à celle de l’approche séquentielle de Page.
+L'objectif est d’implémenter FOCuS en R/C++ et de comparer ses performances (algorithmiques et statistiques) à celle de l’approche séquentielle de Page.
 </br>
 Ces méthodes permettent de détecter des ruptures dans une séquence (en particulier des séries temporelles).
 
