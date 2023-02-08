@@ -5,7 +5,7 @@
 ###                                                                ###
 ######################################################################
 
-#' @title Fast Online Changepoint Detection via Functional Pruning CUSUM statistics
+#' @title Fast Online Changepoint Detection via Functional Pruning CUSUM statistics (C++)
 #'
 #' @description FOCuS est un algorithme permettant de détecter les changements de moyenne en temps réel. Ceci est réalisé par une mise à jour récursive d'une équation du second degré par morceaux, dont le maximum est la statistique de test CUSUM pour un changement. FOCuS peut être appliqué à des situations où la moyenne avant changement est connue ou inconnue. En outre, FOCuS peut détecter des changements en présence de points aberrants.
 #'

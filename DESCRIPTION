@@ -1,7 +1,7 @@
 Package: projetAlgo
 Type: Package
 Title: Implémentation de FOCuS pour la détection de ruptures
-Version: 1.0.3
+Version: 1.1.0
 Date: 2023-01-15
 Authors@R: c(person("Sarugan", "Sriharan", email = "sarugan.sriharan@protonmail.com", role = c("aut", "cre")), person("Ibtissem", "Rebai", email = "ibtissem.rebai@hotmail.com", role = c("aut")), person("Abdelouahab", "Zaari", email = "zaari.abdou98@gmail.com", role = c("aut")))
 Maintainer: Sarugan Sriharan <sarugan.sriharan@protonmail.com> 

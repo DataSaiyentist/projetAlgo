@@ -2,7 +2,7 @@
 % Please edit documentation in R/FOCuS.R
 \name{FOCuS}
 \alias{FOCuS}
-\title{Fast Online Changepoint Detection via Functional Pruning CUSUM statistics}
+\title{Fast Online Changepoint Detection via Functional Pruning CUSUM statistics (C++)}
 \usage{
 FOCuS(datasource, thres, ...)
 }

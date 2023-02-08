@@ -74,7 +74,7 @@ naive_test <- function(x, threshold = 0.05, method = c("wilcox", "KS")) {
     pvalues <- c(pvalues, test_func(x[1:i], x[(i+1):n])$p.value)
   }
 
-  return(which(pvalues < threshold))
+  return(which(pvalues < threshold) + 1)
 }
 
 ######################################################################
@@ -105,7 +105,7 @@ naive_test2 <- function(x, K = 1, method = c("wilcox", "KS")) {
   for (i in 1:(n-1)) {
     pvalues <- c(pvalues, test_func(x[1:i], x[(i+1):n])$p.value)
   }
-  index_break <- c(index_break, which.min(pvalues))
+  index_break <- c(index_break, which.min(pvalues) + 1)
 
   k <- 1
   # Recherche des autres points de rupture
@@ -131,7 +131,7 @@ naive_test2 <- function(x, K = 1, method = c("wilcox", "KS")) {
       pvalues <- c(pvalues, test_func(x[index_break[k]:i], x[(i+1):n])$p.value)
     }
 
-    index_break <- c(index_break, which.min(pvalues))
+    index_break <- c(index_break, which.min(pvalues) + 1)
     k <- k + 1
   }
 
@@ -271,4 +271,72 @@ pageSeq <- function(x, threshold, mu1) {
 ######################################################################
 ######################################################################
 
+#' Itération de l'algorithme FOCuS0
+#'
+#' @description Q_iter permet de mettre à jour Q avec un nouveau triplet (tau, s, l).
+#'
+#' @details Cette fonction va effectuer une itération de l'algorithme de FOCuS.
+#'
+#' @param Q matrice de triplets à valeurs réelles
+#' @param mu moyenne après la rupture
+#' @param s somme cumulée
+#' @return \code{Q} matrice après itération et \code{s} scalaire de la somme cumulée
+#' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
+#' @seealso https://github.com/gtromano/FOCuS
+Q_iter <- function(Q, mu, s) {
 
+  k <- nrow(Q)
+  tau <- k + 1
+  s <- s
+  l <- Inf
+  i <- k
+
+  # boucle while qui décrémente la valeur de i jusqu'à ce que la condition
+  # (2 * (s - Q[i, 2]) - (tau - Q[i, 1]) * Q[i, 3] <= 0) soit fausse ou jusqu'à ce que i soit inférieur à 1
+  while (2 * (s - Q[i, 2]) - (tau - Q[i, 1]) * Q[i, 3] <= 0 && i >= 1) {
+    i <- i - 1
+  }
+
+  # Si i < k, on supprime les lignes i premières lignes de Q
+  if (i < k) { Q <- Q[1:(i),] }
+  l <- max(0, 2 * (s - Q[2]) / (tau - Q[1]))
+  # Une nouvelle ligne est ajoutée à Q avec les valeurs tau, s et l.
+  Q <- rbind(Q, c(tau, s, l))
+
+  return (list(Q = Q, s = s))
+}
+
+######################################################################
+######################################################################
+
+#' Détection d'une rupture avec FOCuS0 (R)
+#'
+#' @description FOCuS0 permet de détecter un point de rupture sous l'hypothèse que l'on connaît la moyenne après la rupture.
+#'
+#' @details Cette fonction va effectuer la première étape de l'algorithme FOCuS0, à savoir calculer Qn en fonction de mu.
+#'
+#' @param Q matrice de triplets à valeurs réelles
+#' @param mu moyenne après la rupture
+#' @param X vecteur (série temporelle) à valeurs réelles
+#' @return \code{Q_plus} la matrice des itérations des triplets qui détermine le point de rupture \code{S} les statistiques de FOCuS0
+#' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
+#' @seealso https://github.com/gtromano/FOCuS
+FOCuS_R <- function(Q, mu, X) {
+
+  n <- length(X)
+  # Ajouter une ligne à la matrice Q avec les valeurs 0, 0 et -mu / 2
+  Q <- rbind(Q, c(0, 0, -mu / 2))
+
+  # Calculer la somme cumulée des éléments de X
+  S <- cumsum(X)
+  Qplus <- matrix(ncol = 3, nrow = n)
+
+  for (i in 1:n) {
+    # Exécution de Q_iter avec les entrées Q, mu et le i-ème élément de S
+    Qplus <- Q_iter(Q, mu, S[i])
+    # Mise à jour de la matrice Q avec le résultat de l'algorithme Q_iter
+    Q <- Qplus$Q
+  }
+
+  return (list(Qplus = Qplus, S = S))
+}
