@@ -275,15 +275,14 @@ pageSeq <- function(x, threshold, mu1) {
 #'
 #' @description Q_iter permet de mettre à jour Q avec un nouveau triplet (tau, s, l).
 #'
-#' @details Cette fonction va effectuer une itération de l'algorithme de FOCuS.
+#' @details Cette fonction va effectuer une mise à jour de Q par rapport à mu1 pour l'algorithme de FOCuS0.
 #'
 #' @param Q matrice de triplets à valeurs réelles
-#' @param mu moyenne après la rupture
-#' @param s somme cumulée
+#' @param s somme cumulative
 #' @return \code{Q} matrice après itération et \code{s} scalaire de la somme cumulée
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
 #' @seealso https://github.com/gtromano/FOCuS
-Q_iter <- function(Q, mu, s) {
+Q_iter <- function(Q, s) {
 
   k <- nrow(Q)
   tau <- k + 1
@@ -309,23 +308,24 @@ Q_iter <- function(Q, mu, s) {
 ######################################################################
 ######################################################################
 
-#' Détection d'une rupture avec FOCuS0 (R)
+#' Détection d'une rupture avec FOCuS (R)
 #'
-#' @description FOCuS0 permet de détecter un point de rupture sous l'hypothèse que l'on connaît la moyenne après la rupture.
+#' @description FOCuS0 permet de détecter un point de rupture avec ou sans la connaissance de la moyenne après la rupture.
 #'
-#' @details Cette fonction va effectuer la première étape de l'algorithme FOCuS0, à savoir calculer Qn en fonction de mu.
+#' @details Cette fonction va effectuer la première étape de l'algorithme FOCuS0, à savoir calculer Qn en fonction de différents mu1.
+#' Puis (seconde étape) chercher la maximum sur tous les mu de Qn et enfin vérifier si la statistique est plus grand qu'un certain seuil.
+#' (Seule la version avec connaissance de mu1 a été implémenté ici... donc retourne plutôt la statistique)
 #'
-#' @param Q matrice de triplets à valeurs réelles
-#' @param mu moyenne après la rupture
 #' @param X vecteur (série temporelle) à valeurs réelles
+#' @param mu1 moyenne après la rupture
 #' @return \code{Q_plus} la matrice des itérations des triplets qui détermine le point de rupture \code{S} les statistiques de FOCuS0
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
 #' @seealso https://github.com/gtromano/FOCuS
-FOCuS_R <- function(Q, mu, X) {
+FOCuS_R <- function(X, mu1) {
 
   n <- length(X)
   # Ajouter une ligne à la matrice Q avec les valeurs 0, 0 et -mu / 2
-  Q <- rbind(Q, c(0, 0, -mu / 2))
+  Q <- matrix(c(0, 0, - mu1 / 2), nrow = 1, ncol = 3)
 
   # Calculer la somme cumulée des éléments de X
   S <- cumsum(X)
@@ -333,7 +333,7 @@ FOCuS_R <- function(Q, mu, X) {
 
   for (i in 1:n) {
     # Exécution de Q_iter avec les entrées Q, mu et le i-ème élément de S
-    Qplus <- Q_iter(Q, mu, S[i])
+    Qplus <- Q_iter(Q, S[i])
     # Mise à jour de la matrice Q avec le résultat de l'algorithme Q_iter
     Q <- Qplus$Q
   }
