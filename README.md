@@ -4,7 +4,7 @@ L'objectif est d’implémenter FOCuS en R/C++ et de comparer ses performances (
 </br>
 Ces méthodes permettent de détecter des ruptures dans une séquence (en particulier des séries temporelles).
 
-Nous avons aussi impémenté d'autres approches pour la détection de ruptures comme CUSUM ou Page-CUSUM.
+J'ai aussi impémenté d'autres approches pour la détection de ruptures comme CUSUM ou Page-CUSUM.
 
 ## Exigences pour l'installation du package
 
