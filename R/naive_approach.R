@@ -275,19 +275,19 @@ pageSeq <- function(x, threshold, mu1) {
 #'
 #' @description Q_iter permet de mettre à jour Q avec un nouveau triplet (tau, s, l).
 #'
-#' @details Cette fonction va effectuer une mise à jour de Q par rapport à mu1 pour l'algorithme de FOCuS0.
+#' @details Cette fonction va effectuer une mise à jour de Q par rapport à la nouvelle donnée pour l'algorithme de FOCuS0.
 #'
 #' @param Q matrice de triplets à valeurs réelles
 #' @param s somme cumulative
-#' @return \code{Q} matrice après itération et \code{s} scalaire de la somme cumulée
+#' @param n instant de la nouvelle observation
+#' @return \code{Q} matrice après itération
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
 #' @seealso https://github.com/gtromano/FOCuS
-Q_iter <- function(Q, s) {
+Q_iter <- function(Q, s, n) {
 
-  k <- nrow(Q)
-  tau <- k + 1
-  s <- s
+  tau <- n
   l <- Inf
+  k <- nrow(Q)
   i <- k
 
   # boucle while qui décrémente la valeur de i jusqu'à ce que la condition
@@ -296,13 +296,15 @@ Q_iter <- function(Q, s) {
     i <- i - 1
   }
 
-  # Si i < k, on supprime les lignes i premières lignes de Q
-  if (i < k) { Q <- Q[1:(i),] }
-  l <- max(0, 2 * (s - Q[2]) / (tau - Q[1]))
+  l <- max(0, 2 * (s - Q[i, 2]) / (tau - Q[i, 1]))
+
+  # Si i < k, on supprime les lignes après les i premières lignes de Q
+  if (i < k) { Q <- Q[1:i, ] }
+
   # Une nouvelle ligne est ajoutée à Q avec les valeurs tau, s et l.
   Q <- rbind(Q, c(tau, s, l))
 
-  return (list(Q = Q, s = s))
+  return(Q)
 }
 
 ######################################################################
@@ -314,29 +316,35 @@ Q_iter <- function(Q, s) {
 #'
 #' @details Cette fonction va effectuer la première étape de l'algorithme FOCuS0, à savoir calculer Qn en fonction de différents mu1.
 #' Puis (seconde étape) chercher la maximum sur tous les mu de Qn et enfin vérifier si la statistique est plus grand qu'un certain seuil.
-#' (Seule la version avec connaissance de mu1 a été implémenté ici... donc retourne plutôt la statistique)
 #'
-#' @param X vecteur (série temporelle) à valeurs réelles
-#' @param mu1 moyenne après la rupture
-#' @return \code{Q_plus} la matrice des itérations des triplets qui détermine le point de rupture \code{S} les statistiques de FOCuS0
+#' @param x vecteur (série temporelle) à valeurs réelles
+#' @param threshold seuil pour décider d'un changement de tendance
+#' @return \code{cp} le supposé indice du point de rupture et \code{Q} la matrice des itérations des triplets
 #' @references Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
 #' @seealso https://github.com/gtromano/FOCuS
-FOCuS_R <- function(X, mu1) {
+FOCuS_R <- function(x, threshold) {
 
-  n <- length(X)
-  # Ajouter une ligne à la matrice Q avec les valeurs 0, 0 et -mu / 2
-  Q <- matrix(c(0, 0, - mu1 / 2), nrow = 1, ncol = 3)
+  n <- length(x)
+  # Initialisation de Q (valant 0 nous n = 0)
+  Q <- matrix(c(0, 0, 0), nrow = 1, ncol = 3)
 
-  # Calculer la somme cumulée des éléments de X
-  S <- cumsum(X)
-  Qplus <- matrix(ncol = 3, nrow = n)
+  # Calculer la somme cumulée des éléments de x
+  S <- cumsum(x)
 
+  cp <- -1
   for (i in 1:n) {
-    # Exécution de Q_iter avec les entrées Q, mu et le i-ème élément de S
-    Qplus <- Q_iter(Q, S[i])
-    # Mise à jour de la matrice Q avec le résultat de l'algorithme Q_iter
-    Q <- Qplus$Q
+    # Exécution de Q_iter avec les entrées Q et le i-ème élément de S
+    Q <- Q_iter(Q, S[i], i)
+
+    # On arrête l'algorithme lorsque la statistique est plus grande que threshold
+    # pour l'un des quadratiques
+    for (i_q in 1:nrow(Q)) {
+      if ((S[i] - Q[i_q, 2])^2 >= 2 * threshold * (i - Q[i_q, 1])) {
+        cp <- i
+        break
+      }
+    }
   }
 
-  return (list(Qplus = Qplus, S = S))
+  return (list(cp = cp, maxs = Q))
 }

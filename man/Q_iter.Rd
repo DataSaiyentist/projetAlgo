@@ -4,21 +4,23 @@
 \alias{Q_iter}
 \title{Itération de l'algorithme FOCuS0}
 \usage{
-Q_iter(Q, s)
+Q_iter(Q, s, n)
 }
 \arguments{
 \item{Q}{matrice de triplets à valeurs réelles}
 
 \item{s}{somme cumulative}
+
+\item{n}{instant de la nouvelle observation}
 }
 \value{
-\code{Q} matrice après itération et \code{s} scalaire de la somme cumulée
+\code{Q} matrice après itération
 }
 \description{
 Q_iter permet de mettre à jour Q avec un nouveau triplet (tau, s, l).
 }
 \details{
-Cette fonction va effectuer une mise à jour de Q par rapport à mu1 pour l'algorithme de FOCuS0.
+Cette fonction va effectuer une mise à jour de Q par rapport à la nouvelle donnée pour l'algorithme de FOCuS0.
 }
 \references{
 Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205

@@ -4,15 +4,15 @@
 \alias{FOCuS_R}
 \title{Détection d'une rupture avec FOCuS (R)}
 \usage{
-FOCuS_R(X, mu1)
+FOCuS_R(x, threshold)
 }
 \arguments{
-\item{X}{vecteur (série temporelle) à valeurs réelles}
+\item{x}{vecteur (série temporelle) à valeurs réelles}
 
-\item{mu1}{moyenne après la rupture}
+\item{threshold}{seuil pour décider d'un changement de tendance}
 }
 \value{
-\code{Q_plus} la matrice des itérations des triplets qui détermine le point de rupture \code{S} les statistiques de FOCuS0
+\code{cp} le supposé indice du point de rupture et \code{Q} la matrice des itérations des triplets
 }
 \description{
 FOCuS0 permet de détecter un point de rupture avec ou sans la connaissance de la moyenne après la rupture.
@@ -20,7 +20,6 @@ FOCuS0 permet de détecter un point de rupture avec ou sans la connaissance de l
 \details{
 Cette fonction va effectuer la première étape de l'algorithme FOCuS0, à savoir calculer Qn en fonction de différents mu1.
 Puis (seconde étape) chercher la maximum sur tous les mu de Qn et enfin vérifier si la statistique est plus grand qu'un certain seuil.
-(Seule la version avec connaissance de mu1 a été implémenté ici... donc retourne plutôt la statistique)
 }
 \references{
 Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, 10.48550/ARXIV.2110.08205
