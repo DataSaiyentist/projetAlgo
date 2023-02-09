@@ -292,7 +292,7 @@ Q_iter <- function(Q, s, n) {
 
   # boucle while qui décrémente la valeur de i jusqu'à ce que la condition
   # (2 * (s - Q[i, 2]) - (tau - Q[i, 1]) * Q[i, 3] <= 0) soit fausse ou jusqu'à ce que i soit inférieur à 1
-  while (2 * (s - Q[i, 2]) - (tau - Q[i, 1]) * Q[i, 3] <= 0 && i >= 1) {
+  while ((2 * (s - Q[i, 2]) - (tau - Q[i, 1]) * Q[i, 3] <= 0) && (k > 1) && (i >= 2)) {
     i <- i - 1
   }
 
@@ -332,6 +332,7 @@ FOCuS_R <- function(x, threshold) {
   S <- cumsum(x)
 
   cp <- -1
+  stop_F <- FALSE
   for (i in 1:n) {
     # Exécution de Q_iter avec les entrées Q et le i-ème élément de S
     Q <- Q_iter(Q, S[i], i)
@@ -340,10 +341,13 @@ FOCuS_R <- function(x, threshold) {
     # pour l'un des quadratiques
     for (i_q in 1:nrow(Q)) {
       if ((S[i] - Q[i_q, 2])^2 >= 2 * threshold * (i - Q[i_q, 1])) {
-        cp <- i
+        cp <- Q[i_q, 1]
+        stop_F <- TRUE
         break
       }
     }
+
+    if (stop_F) { break }
   }
 
   return (list(cp = cp, maxs = Q))
