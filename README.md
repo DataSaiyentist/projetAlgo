@@ -1,10 +1,6 @@
 # Projet d'Algorithmique (M2 Data Science 2022/2023)
 
-L'objectif est d’implémenter FOCuS en R/C++ et de comparer ses performances (algorithmiques et statistiques) à celle de l’approche séquentielle de Page.
-</br>
-Ces méthodes permettent de détecter des ruptures dans une séquence (en particulier des séries temporelles).
-
-J'ai aussi impémenté d'autres approches pour la détection de ruptures comme CUSUM ou Page-CUSUM.
+L'objectif est d’implémenter des méthodes permettant de détecter des ruptures dans une séquence (en particulier des séries temporelles) comme CUSUM ou Page-CUSUM.
 
 ## Exigences pour l'installation du package
 
