@@ -1,10 +1,6 @@
 # Projet d'Algorithmique (M2 Data Science 2022/2023)
 
-L'objectif est d’implémenter FOCuS en R/C++ et de comparer ses performances (algorithmiques et statistiques) à celle de l’approche séquentielle de Page.
-</br>
-Ces méthodes permettent de détecter des ruptures dans une séquence (en particulier des séries temporelles).
-
-Nous avons aussi impémenté d'autres approches pour la détection de ruptures comme CUSUM ou Page-CUSUM.
+L'objectif est d’implémenter des méthodes permettant de détecter des ruptures dans une séquence (en particulier des séries temporelles) comme CUSUM ou Page-CUSUM.
 
 ## Exigences pour l'installation du package
 
@@ -30,5 +26,5 @@ library(projetAlgo)
 
 ## License
 
-Copyright © 2023 [Data Saiyentist](https://github.com/DataSaiyentist), [I-Rebai](https://github.com/I-Rebai), [Zaari1998](https://github.com/Zaari1998). <br />
+Copyright © 2023 [Data Saiyentist](https://github.com/DataSaiyentist). <br />
 Ce projet est sous license [GNU General Public License v3.0](https://github.com/DataSaiyentist/projetAlgo/blob/main/LICENSE).
