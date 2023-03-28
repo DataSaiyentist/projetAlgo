@@ -6,7 +6,6 @@ L'objectif est d’implémenter des méthodes permettant de détecter des ruptur
 
 L'installation nécessite les packages suivants :
 
-- `stats`
 - `devtools`
 - `Rcpp (>= 1.0.5)`
 
