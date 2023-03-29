@@ -21,7 +21,6 @@ library(projetAlgo)
 ## Références
 
 - Romano, Gaetano and Eckley, Idris and Fearnhead, Paul and Rigaill, Guillem (2021) Fast Online Changepoint Detection via Functional Pruning CUSUM statistics, arXiv, [10.48550/ARXIV.2110.08205](https://arxiv.org/abs/2110.08205)
-- [https://github.com/gtromano/FOCuS](https://github.com/gtromano/FOCuS)
 
 ## License
 
