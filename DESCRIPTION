@@ -3,7 +3,7 @@ Type: Package
 Title: Implémentation de FOCuS pour la détection de ruptures
 Version: 1.1.4
 Date: 2023-01-15
-Authors@R: c(person("Sarugan", "Sriharan", email = "sarugan.sriharan@protonmail.com", role = c("aut", "cre")))
+Authors@R: c(person("Data", "Saiyentist", email = "no.mail@github.com", role = c("aut", "cre")))
 Maintainer: Sarugan Sriharan <sarugan.sriharan@protonmail.com> 
 Description: L'objectif du projet est d'apprendre à faire face à des problèmes réels.
     Dans notre cas, nous cherchons à détecter les points de rupture dans une série temporelle. Nous avons implémenté en particulier la méthode FOCuS et l'avons comparé à l'approche séquentielle de Page.
